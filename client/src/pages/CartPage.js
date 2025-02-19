@@ -1,64 +1,61 @@
 import React, { useState, useEffect } from 'react';
-import { getCart, removeFromCart, updateCartQuantity } from '../api';
+import { Link } from 'react-router-dom'; // For linking to other pages
 import '../css/cart.css';
 
 const CartPage = () => {
-  const [cartItems, setCartItems] = useState([]);
-  const [total, setTotal] = useState(0);
+  const [cart, setCart] = useState([]);
 
   useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        const data = await getCart();
-        setCartItems(data);
-        calculateTotal(data);
-      } catch (error) {
-        console.error('Error fetching cart:', error);
-      }
-    };
-    fetchCart();
-  }, [cartItems]);
+    const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
+    setCart(storedCart);
+  }, []);
 
-  const handleRemoveItem = async (productId) => {
-    await removeFromCart(productId);
-    setCartItems(cartItems.filter(item => item._id !== productId));
+  const removeFromCart = (productId) => {
+    const updatedCart = cart.filter((product) => product._id !== productId);
+    setCart(updatedCart);
+
+    // Save the updated cart to localStorage
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
 
-  const handleQuantityChange = async (productId, quantity) => {
-    await updateCartQuantity(productId, quantity);
-    setCartItems(cartItems.map(item => item._id === productId ? { ...item, quantity } : item));
-    calculateTotal(cartItems);
+  const clearCart = () => {
+    setCart([]);
+    localStorage.removeItem('cart');
   };
 
-  const calculateTotal = (items) => {
-    const totalAmount = items.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-    setTotal(totalAmount);
-  };
+  const totalPrice = cart.reduce((total, product) => total + product.price, 0);
 
   return (
     <div className="cart-page">
-      <h2>Your Cart</h2>
-      <div className="cart-items">
-        {cartItems.map((item) => (
-          <div key={item._id} className="cart-item">
-            <img src={item.imageUrl} alt={item.name} />
-            <div>{item.name}</div>
-            <div>
-              <input
-                type="number"
-                value={item.quantity}
-                onChange={(e) => handleQuantityChange(item._id, e.target.value)}
-                min="1"
-              />
+      <h1>Your Cart</h1>
+
+      {cart.length === 0 ? (
+        <p>Your cart is empty!</p>
+      ) : (
+        <div className="cart-items">
+          {cart.map((product) => (
+            <div key={product._id} className="cart-item">
+              <img src={product.imageUrl} alt={product.name} />
+              <div className="cart-item-info">
+                <h3>{product.name}</h3>
+                <p>${product.price}</p>
+                <button onClick={() => removeFromCart(product._id)}>
+                  Remove from Cart
+                </button>
+              </div>
             </div>
-            <div>${item.price}</div>
-            <button onClick={() => handleRemoveItem(item._id)}>Remove</button>
-          </div>
-        ))}
-      </div>
-      <div className="checkout">
-        <h3>Total: ${total}</h3>
-        <button className="checkout-btn">Proceed to Checkout</button>
+          ))}
+        </div>
+      )}
+
+      <div className="cart-summary">
+        <p>Total Price: ${totalPrice}</p>
+        <button className="clear-cart" onClick={clearCart}>
+          Clear Cart
+        </button>
+        <Link to="/payment">
+          <button className="checkout">Proceed to Checkout</button>
+        </Link>
       </div>
     </div>
   );

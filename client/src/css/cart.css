@@ -1,99 +1,45 @@
-/* Cart Page */
 .cart-page {
-    padding: 50px 20px;
-    background-color: #f4f6f7;
-  }
-  
-  .cart-page h1 {
-    font-size: 2.8rem;
-    font-weight: 700;
-    color: #2c3e50;
-    margin-bottom: 30px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    animation: fadeInUp 1s ease-out;
-  }
-  
-  .cart-items {
-    background-color: #fff;
-    border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-    margin-top: 30px;
-    animation: fadeInUp 1.3s ease-out;
-  }
-  
-  .cart-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 15px;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .cart-item img {
-    width: 80px;
-    height: auto;
-    border-radius: 8px;
-  }
-  
-  .cart-item-details {
-    flex-grow: 1;
-    padding-left: 20px;
-  }
-  
-  .cart-item-name {
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-  
-  .cart-item-price {
-    font-size: 1.2rem;
-    color: #34495e;
-  }
-  
-  .cart-item-remove {
-    font-size: 1.2rem;
-    color: #e74c3c;
-    cursor: pointer;
-    transition: color 0.3s ease;
-  }
-  
-  .cart-item-remove:hover {
-    color: #c0392b;
-  }
-  
-  .cart-total {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-top: 30px;
-    text-align: right;
-  }
-  
-  .cart-total button {
-    background-color: #e74c3c;
-    color: white;
-    font-size: 1.2rem;
-    padding: 15px 30px;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
-  
-  .cart-total button:hover {
-    background-color: #c0392b;
-    transform: scale(1.05);
-  }
-  
-  @keyframes fadeInUp {
-    0% {
-      opacity: 0;
-      transform: translateY(50px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+  padding: 10px;
+}
+
+.cart-item img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  margin-right: 20px;
+}
+
+.cart-item-info {
+  flex-grow: 1;
+}
+
+.cart-summary {
+  margin-top: 20px;
+  font-size: 18px;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
